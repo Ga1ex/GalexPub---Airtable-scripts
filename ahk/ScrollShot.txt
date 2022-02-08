@@ -1,0 +1,88 @@
+Sleep, 3000
+MsgBox Starting program. Proceed to document.  F12 to Exit OK to Continue 
+CoordMode, Pixel, Window
+
+Loop{
+gosub, checkpage
+Gosub, detectpages
+MsgBox 0,ScrollnShot, Document pages: %CountPages%, 2 
+Msgbox 0,ScrollnShot,starting to shot document,1
+TotalPages:=CountPages
+gosub, doshots
+}
+ExitApp
+
+
+
+checkpage:
+Sleep, 200
+ImageSearch, SomeVarX, SomeVarY, 0, 0, A_ScreenWidth, A_ScreenHeight, odin.png
+if ErrorLevel = 2
+    MsgBox Search failed F12 to exit
+else if ErrorLevel = 1
+{
+MsgBox, 0, ScrollnShot, seeking for page 1.. trying to list ,2
+Send {Home}
+Sleep, 200
+ImageSearch, SomeVarX, SomeVarY, 0, 0, A_ScreenWidth, A_ScreenHeight, odin.png
+	if ErrorLevel
+	{
+	Msgbox, 0, ScrollnShot , No more pages found, 2
+	Msgbox, 0, ScrollnShot , Thanks for watching and good bye, 2
+	Run ..\shots
+	Exit
+	}
+}
+MsgBox,0, ScrollnShot , First page mark Found at %SomeVarX% %SomeVarY% ,2
+Return
+
+
+detectpages:
+Sleep, 1000
+Tooltip, starting, 20,20
+Send {End}
+Sleep, 500
+CountPages:=1
+Loop
+{
+Sleep, 200
+ImageSearch, SomeVarX, SomeVarY, 250, 50, 500, 200, odin.png
+if ErrorLevel = 2
+    MsgBox Search failed
+else if ErrorLevel = 0
+Return
+CountPages+=1
+ToolTip, Pages are: %CountPages%
+Send {Left}
+}
+
+F12::
+ExitApp
+
+
+doshots:
+Send {Home}
+Sleep,1500
+Send ^+-
+Sleep, 1500
+Send ^l
+Sleep, 1500
+CurrentPage:=0
+ToolTip, Current page: %CountPages%
+While CurrentPage<TotalPages
+{
+CurrentPage+=1
+ToolTip, Current page: %CurrentPage%
+Sleep,200
+Run nircmd savescreenshot ..\shots\shot[%CurrentPage%]_~$currtime.HH_mm_ss$.png
+sleep 500
+Send {Right}
+}
+Sleep, 500
+Send ^l
+Sleep,1500
+Send ^++
+Sleep,1500
+Send ^w
+Sleep,1500
+return
