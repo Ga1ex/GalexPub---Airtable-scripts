@@ -1,6 +1,6 @@
-// ALike. galex2022.  arr coef 2-100%,3-75%,4(default)-51%
-let mainTable = base.getTable('Orders'); 
-const [fld1,fld2,result]=['addr','addr','addr']
+// ALike. galex2022. Check text fuzzy match. arr coef 2-100%,3-75%,4(default)-51%
+let mainTable = base.getTable('ANYTABLE'); 
+const [fld1,fld2,result]=['compare1','compare2','result']
 const updateLink=(ord,m)=>({id:ord.id,fields:{result:arr(compare(fld1,fld2))}}) 
 const words=w=>query.records.getCellValue(w).split(' ')
 const compare=(x,y)=>[...words(x),...words(y)]

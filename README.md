@@ -1,3 +1,3 @@
 "# GalexPub" 
-Script examples for Airtable
+Scripts for Airtable to manage table data
 
