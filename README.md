@@ -11,6 +11,8 @@ Horizont_to_Vert - transpose table, turning some data rows with 'Name 1', 'Name 
 
 Merge_attachments - get attachments from field 1 and 2, deduplicate, write to field 1.
 
+OryxFetch - fetch data from site oryxspioenkop.com, about equipment losses in war, parse it into small group of head lines, write to table
+
 UpdateCreate - get data from some API, in json, check records in table. If such ID exists, update. If not, create new record
 
 Vlookup - set links between 2 tables comparing 2 given fields in them. Supports large tables and multiple linking.
