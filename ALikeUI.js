@@ -1,10 +1,15 @@
-// ALike. galex2022. Check text fuzzy match. arr coef 2-100%,3-75%,4(default)-51%
-const mainTable = base.getTable('ANYTABLE'); 
-const [fld1,fld2,result]=['compare1','compare2','result']
-const updateLink=(ord,m)=>({id:ord.id,fields:{result:arr(compare(fld1,fld2))}}) 
-const words=w=>query.records.getCellValue(w).split(' ')
-const compare=(x,y)=>[...words(x),...words(y)]
-const arr=a=>4*(a.length-(new Set(a)).size)>a.length? 'Y':'N' ;
-const query = await mainTable.selectRecordsAsync({fields:[mainField]});
-const updates=query.records.map(updateLink);
-while(updates.length) await mainTable.updateRecordsAsync(updates.splice(0,50))
+const config = input.config({title: 'Find best match',items:[
+    input.config.table('table', {label: 'Select table'}),
+    input.config.field('myfield', {label: 'Select field',parentTable: 'table'}),
+    input.config.text('mytext',{label:'input text'})
+    ]})
+const {table,myfield:{name:field},mytext:text}=config;
+const txtarr=[...new Set(text.split(' '))]
+const reSet=x=>new Set(x.split(' '));
+const sets=r=>[...txtarr,...reSet((r.getCellValueAsString(field)||''))]
+const likeness=arr=>(arr.length-(reSet(arr.join(' '))).size)/arr.length
+const compare=rec=>likeness(sets(rec))
+const query=await table.selectRecordsAsync({fields:[field]});
+const index=arr=>arr.indexOf(Math.max(...arr));
+const val=query.records[index(query.records.map(compare))].getCellValueAsString(field);
+output.text(val)
