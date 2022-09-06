@@ -9,14 +9,17 @@ const fnames=cutter(rec.getCellValue(FNAMES)).split('- ').splice(1);
 const ftypes=rec.getCellValue(FTYPES).map(t=>t.name);
 if ((fnames.length<ftypes.length)||(!tname)) throw new Error('Names not defined')
 
+const typSet=[...new Set(base.tables.flatMap(t=>t.fields.map(f=>f.type)))]
+const sch='[]' //<<to get all types use =JSON.stringify(typSet.map(t=>({'name':t})))
+
 const empty=['singleLineText','multilineText'].map(name=>[name,''])
 const numeric=[['number','{precision:0}'],['currency','{precision:0,"symbol":"$"}']]
-const opt=(Object.fromEntries([...empty,...numeric]))
+const select=['multipleSelects','singleSelect'].map(name=>[name,`{choises:${sch}}`])
+const opt=(Object.fromEntries([...empty,...numeric,...select]))
 const option=x=>opt[x]? ', options:'+(opt[x])+'}':'}'
 const convert=(name,t)=>`{'name':'${name}','type':'${t}'`+ option(t)
 
 const flds=ftypes.flatMap((t,ix)=>fnames[ix].split(', ').map(fname=>convert(fname,t)))
-output.inspect(flds)
 const command=`output.text(await base.createTableAsync('${tname}',[${[flds.join()]}])`
 await table.updateRecordAsync(rec,{[COMM]:command})
 
