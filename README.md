@@ -24,5 +24,5 @@ Vlookup - set links between 2 tables comparing 2 given fields in them. Supports 
 VlookupUI - input table and field, the rest autodetects. Raised speed, vital for 25k+ rows. Avoids double loop by hashmapping second array.
 
 If you are interested in details of scripts, don't hesitate to ask.
-I can also provide Airtable support including formulas, automations, base design and other stuff, including free help for non-profit project (my interest here is experience of freelancing and to contribute to make a world a better place)
+I can also provide Airtable support including formulas, automations, base design and other stuff.
 Additional contact info: gusev80@gmail.com, @galex80 (telegram)
