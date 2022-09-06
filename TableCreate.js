@@ -14,12 +14,12 @@ const sch='[]' //<<to get all types use =JSON.stringify(typSet.map(t=>({'name':t
 
 const empty=['singleLineText','multilineText'].map(name=>[name,''])
 const numeric=[['number','{precision:0}'],['currency','{precision:0,"symbol":"$"}']]
-const select=['multipleSelects','singleSelect'].map(name=>[name,`{choises:${sch}}`])
+const select=['multipleSelects','singleSelect'].map(name=>[name,`{choices:${sch}}`])
 const opt=(Object.fromEntries([...empty,...numeric,...select]))
 const option=x=>opt[x]? ', options:'+(opt[x])+'}':'}'
 const convert=(name,t)=>`{'name':'${name}','type':'${t}'`+ option(t)
 
 const flds=ftypes.flatMap((t,ix)=>fnames[ix].split(', ').map(fname=>convert(fname,t)))
-const command=`output.text(await base.createTableAsync('${tname}',[${[flds.join()]}])`
+const command=`await base.createTableAsync('${tname}',[${[flds.join()]}])`
 await table.updateRecordAsync(rec,{[COMM]:command})
 
