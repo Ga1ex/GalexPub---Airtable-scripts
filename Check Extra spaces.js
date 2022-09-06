@@ -1,20 +1,16 @@
-//Check all fields containing Word. Displays triling spaces. Galex 2021
-const WORD='someword' 
+const check=value=>(value!=value.trim()) //untrimmed
+const checkname='untrimmed'
 
-const TABLES=base.tables; var current;
-for (let tbl of TABLES) {
-  let table=base.getTable(tbl.id); current=tbl;
-  let checkFields=table.fields.filter(f=>(f.name.toUpperCase().
-  includes(WORD.toUpperCase()))&&
-  (f.type.includes('Text')));
-  for (let fld of checkFields) await check(fld);
-}
+const word=await input.textAsync('Type field name or its part: ')
+const flds=t=>t.fields.filter(f=>(f.name.toUpperCase().includes(word.toUpperCase()))&&(f.type.includes('Text')));
+const TABLES=base.tables; output.text('To check:')
+const tocheck=TABLES.flatMap(t=>flds(t).map(f=>({'table':t.name,'field':f.name})))
+tocheck.length? output.table(tocheck) : output.text('Nothing')
+for (let tbl of TABLES) for (let fld of flds(tbl)) await checkfld(tbl,fld);
 
-async function check(fld){
-  let query=await current.selectRecordsAsync({fields:[fld]}).then()
-  output.text(`Checking ${current.name}/${fld.name}`);
-  let extraSpaces=query.records.filter(r=>
-  r.getCellValueAsString(fld)!=r.getCellValueAsString(fld).trim())
-  output.text(`Total: ${query.records.length}, wrong:${extraSpaces.length}`);
-  return;
-}
+async function checkfld(t,f){
+  let query=await t.selectRecordsAsync({fields:[f]}).then(output.text(`Checking ${t.name}/${f.name}`))
+  let checked=query.records.filter(r=>check(r.getCellValueAsString(f)))
+  output.text(`Total: ${query.records.length}, ${checkname}: ${checked.length}`);
+  return;}
+
