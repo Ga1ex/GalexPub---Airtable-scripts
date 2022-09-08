@@ -1,4 +1,4 @@
-// galex,2022. Set table and field names
+// galex,2022. 
 let settings = input.config({
     title: 'Vlookup',
     description: 'You need to define two tables, fields to set link and link field. Second table/link autodetected',
@@ -13,7 +13,7 @@ if(!linkFields.length) throw new Error (`No link fields in ${tableOne}`);
 let chooseField=(linkFields.length>1)? 
 await input.buttonsAsync('Choose linkfield:',linkFields.map(f=>f.name)):linkFields[0].name
 const LINK=tableOne.getField(chooseField);
-// @ts-ignore
+// @ts-ignore. linter lies
 const SECTABLE=base.getTable(LINK.options?.linkedTableId);
 let sameName=SECTABLE.fields.find(f=>f.name===joinField.name);
 let fld=(sameName)? sameName.name :await input.buttonsAsync(`Field ${joinField.name} absent in ${SECTABLE}.Choose:`,

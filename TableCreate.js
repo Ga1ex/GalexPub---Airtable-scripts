@@ -1,3 +1,5 @@
+//galex 2022. needs table to run from button. fieldnames - longText, bulleted list
+// fieldtypes - multiselect
 const table=base.getTable('TableCreator')
 const query=await table.selectRecordsAsync({fields:table.fields})
 const [TNAME,FNAMES,FTYPES,COMM]=['Name','Fieldnames','Fieldtypes','Command']

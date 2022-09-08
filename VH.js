@@ -1,10 +1,12 @@
+// IN CONSTRUCTION. That will be cool transpose table tool. a bit later
+
 const config = input.config({title: 'Find best match',items:[
     input.config.table('table', {label: 'Select table'}),
     input.config.field('myfield', {label: 'Select field',parentTable: 'table'}),
-    input.config.text('mytext',{label:'input text'})
+    input.config.text('mytext',{label:'New table'})
     ]})
 const {table,myfield:{name:field},mytext:text}=config;
-const txtarr=[...new Set(text.split(' '))]
+if (field==table.fields[0].name) throw new Error ('Choose other field')
 const reSet=x=>new Set(x.split(' '));
 const sets=r=>[...txtarr,...reSet((r.getCellValueAsString(field)||''))]
 const likeness=arr=>(arr.length-(reSet(arr.join(' '))).size)/arr.length
