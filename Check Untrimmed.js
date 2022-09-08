@@ -1,5 +1,6 @@
-const check=value=>(value!=value.trim()) //untrimmed
-const checkname='untrimmed'
+//galex 2022
+const check=value=>(value!=value.trim()) //untrimmed. 
+const checkname='untrimmed' // function & name moved here to be able to check anything
 
 const word=await input.textAsync('Type field name or its part: ')
 const flds=t=>t.fields.filter(f=>(f.name.toUpperCase().includes(word.toUpperCase()))&&(f.type.includes('Text')));
