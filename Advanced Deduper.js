@@ -6,7 +6,8 @@ const query=await table.selectRecordsAsync({fields:[CHECK]})
 const norm=r=>r.getCellValueAsString(CHECK).toLowerCase() 
 .split(' ').sort().filter(n=>n.length>2).map(m=>m.replace(/W/,'')).join('');
 const values=new Map(query.records.map(rec=>[norm(rec),rec.id]))
-const others=query.recordIds.filter(id=>(![...values.values()].includes(id))) 
+const valueset=[...values.values()]
+const others=query.recordIds.filter(id=>(!valueset.includes(id))) 
 const othervals=new Set(others.map(id=>norm(query.getRecord(id))))
 const dupes=[...values.keys()].filter(val=>othervals.has(val))
 const upd=query.records.filter(r=>dupes.includes(norm(r))).map(u=>({'id':u.id,'fields':{[MARK.name]:dupes.indexOf(norm(u)).toString()}}))
