@@ -7,6 +7,7 @@ Can ignore case, 1-2 letter words, order of words, non-letter symbols (useful fo
 
 Alike - fuzzy compare for sentences (may be used to compare Addresses from different sources etc)  
 Alike UI - same with input.config and select field and phrase
+(Levenstein - fuzzy compare with Levenstein distance, usable but incomplete)
 
 Attachment size - summary size of all attachments in all base tables, per table
 
@@ -14,9 +15,13 @@ Check Extra spaces - check 'untrimmed' values in some fileds (name contains 'giv
 
 Horizont_to_Vert - transpose table, turning some data rows with 'Name 1', 'Name 2', 'Name 3' to vertical columns 'Name','num'
 
+Links and Lookups - Shows all linked fields and their lookups
+
 OryxFetch - fetch data from site oryxspioenkop.com, about equipment losses in war, parse it into small group of head lines, write to table
 
 TableCreate - it's a script for table 'TableCreator', used as tool to create tables by script. Select types, put names and press button. 
+Create table, await base.createTableAsync('TableCreator',[{name:'Name',type:'singleLineText'},{name:'prepare',type:'singleLineText'},{name:'Fieldnames',type:'multilineText'},{name:'Command',type:'multilineText'},{name:'Fieldtypes',type:'multipleSelects',options:{choices:[{name:'singleLineText'},{name:'multilineText'}]}}])
+turn prepare to button. use bulleted text for names, comma-seperate inside the same type, new row for new type
 
 UpdateCreate - get data from some API, in json, check records in table. If such ID exists, update. If not, create new record
 
