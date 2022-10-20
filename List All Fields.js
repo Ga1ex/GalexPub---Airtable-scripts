@@ -1,1 +1,0 @@
-output.table(Object.fromEntries([...base.getTable(cursor.activeTableId||'').fields.map(x=>([x.name,{type:x.type,id:x.id}]))]))
