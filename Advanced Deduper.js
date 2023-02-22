@@ -1,5 +1,5 @@
 const config=input.config({ title:'Deduper',items:[input.config.table('table',{label:'Select table'}),
-input.config.view('myview',{label:'Select view', parentTable:'table'}),
+input.config.view('myView',{label:'Select view', parentTable:'table'}),
 input.config.field('CHECK',{label:'field to CHECK', parentTable:'table'}),
 input.config.field('MARK',{label:'field to MARK', parentTable:'table'})]})
 const {table,myView,CHECK,MARK}=config
