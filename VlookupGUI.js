@@ -3,9 +3,11 @@ let settings = input.config({
     title: 'Vlookup',
     description: 'You need to define two tables, fields to set link and link field. Second table and link will be autodetected',
     items:[input.config.table('tableOne', {label: 'Select first table' }),
-           input.config.field('joinField',{label: 'Select field to join',parentTable:'tableOne'})]
+           input.config.field('joinField',{label: 'Select field to join',parentTable:'tableOne'}),
+           input.config.select('byviews',{label: 'Do you need to select views?',options:[
+           {label:'NO (default). Processing full tables',value:'no'},{value:'YES'}]})]
 })
-const {tableOne,joinField}=settings
+const {tableOne,joinField,byviews}=settings
 
 //Define other table and fields
 let linkFields = tableOne.fields.filter(f=>f.type.includes('RecordLinks'));
@@ -16,13 +18,21 @@ const LINK=tableOne.getField(chooseField);
 // @ts-ignore
 const SECTABLE=base.getTable(LINK.options?.linkedTableId);
 let sameName=SECTABLE.fields.find(f=>f.name===joinField.name);
-let fld=(sameName)? sameName.name :await input.buttonsAsync(`Field ${joinField.name} absent in ${SECTABLE}.Choose:`,
+let fld=(sameName)? sameName.name :await input.buttonsAsync(`Field ${joinField.name} absent in ${SECTABLE.name}.Choose:`,
 SECTABLE.fields.filter(f=>!f.type.includes('RecordLinks')).map(f=>f.name));
 const FIELD_TWO=SECTABLE.getField(fld)
 
 //Read data, define target scope
-const queryMain = await tableOne.selectRecordsAsync({fields:[joinField,LINK]});
-let querySec = await SECTABLE.selectRecordsAsync({fields:[FIELD_TWO]});
+let queryMain; let querySec;
+if (byviews==='no') {
+  queryMain = await tableOne.selectRecordsAsync({fields:[joinField,LINK]});
+  querySec = await SECTABLE.selectRecordsAsync({fields:[FIELD_TWO]}) 
+    } else {
+    const viewOne = await input.viewAsync(`Select view for table ${tableOne.name}:`,tableOne)
+    const viewTwo = await input.viewAsync(`Select view for table ${SECTABLE.name}:`,SECTABLE)
+    queryMain = await viewOne.selectRecordsAsync({fields:[joinField,LINK]})
+    querySec = await viewTwo.selectRecordsAsync({fields:[FIELD_TWO]})  }
+
 const val=x=>x.getCellValue(FIELD_TWO)
 const jfld=x=>x.getCellValueAsString(joinField)
 let valtable=querySec.records.reduce((acc,v)=>acc.set(val(v),[...acc.get(val(v))||[],v.id]),new Map())
