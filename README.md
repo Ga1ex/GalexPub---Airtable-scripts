@@ -1,4 +1,4 @@
-<iframe class="airtable-embed" src="https://airtable.com/embed/shr3rV52eZV30UqN1?backgroundColor=orange&viewControls=on" frameborder="0" onmousewheel="" width="100%" height="533" style="background: transparent; border: 1px solid #ccc;"></iframe>
+src=https://airtable.com/embed/shr3rV52eZV30UqN1
 
 "# GalexPub" 
 This repo cotains mine small scripts (10-20 lines) for Airtable to manage table data
