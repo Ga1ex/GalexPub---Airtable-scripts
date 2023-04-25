@@ -1,4 +1,4 @@
-const config=input.config({ title:'Deduper',items:[input.config.table('table',{label:'Select table'}),
+const config=input.config({ title:'Advanced Deduper',items:[input.config.table('table',{label:'Select table'}),
 input.config.view('myView',{label:'Select view', parentTable:'table'}),
 input.config.field('CHECK',{label:'field to CHECK', parentTable:'table'}),
 input.config.field('MARK',{label:'field to MARK', parentTable:'table'})]})
@@ -6,6 +6,7 @@ const {table,myView,CHECK,MARK}=config
 const query=await myView.selectRecordsAsync({fields:[CHECK]})
 const norm=r=>r.getCellValueAsString(CHECK).toLowerCase() 
 .split(' ').sort().filter(n=>n.length>2).map(m=>m.replace(/W/,'')).join('');
+//remove line above for exact match. otherwise it ignores order, punctuation and 1-2 letter words
 const valueMap=new Map(query.records.map(rec=>[norm(rec),rec.id]))
 const valueSet=[...valueMap.values()]
 const others=query.recordIds.filter(id=>(!valueSet.includes(id))) 
