@@ -1,4 +1,4 @@
-src=https://airtable.com/embed/shr3rV52eZV30UqN1
+Gallery:  https://airtable.com/embed/shr3rV52eZV30UqN1
 
 "# GalexPub" 
 This repo cotains mine small scripts (10-20 lines) for Airtable to manage table data
@@ -13,7 +13,15 @@ Alike UI - same with input.config and select field and phrase
 
 Attachment size - summary size of all attachments in all base tables, per table
 
-Check Extra spaces - check 'untrimmed' values in some fileds (name contains 'given word') in all base tables. 
+Check Extra spaces - check 'untrimmed' values in some fileds (name contains 'given word') in all base tables.
+
+DownloadAttach - vbs-script for Windows. Download all attachments from csv into current folder. Can be used for backup to be sure you files are stored in your location. Each attachment has 8-digit code in link, it appends to filename. Then you can restore all including attachments via uploader.
+Requirements: csv file must be named Backup.csv
+Uploader - runs from separate table by button. Add attachments to selected table, using text info in second selected field. Attachments must be uploded to 'Files' field. Might contain 'Status' single-select field.
+
+Find field by ID - find field by ID or it's part
+
+Find duplicates - light version of deduper, no UI, only exact match. 1st line must be adjucted to select fields to check and to mark
 
 Horizont_to_Vert - transpose table, turning some data rows with 'Name 1', 'Name 2', 'Name 3' to vertical columns 'Name','num'
 
@@ -31,5 +39,4 @@ Vlookup - set links between 2 tables comparing 2 given fields in them. Supports 
 VlookupUI - input table and field, the rest autodetects. Raised speed, vital for 25k+ rows. Avoids double loop by hashmapping second array.
 
 If you are interested in details of scripts, don't hesitate to ask.
-I can also provide Airtable support including formulas, automations, base design and other stuff.
 Additional contact info: gusev80@gmail.com, @galex80 (telegram)
