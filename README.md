@@ -13,21 +13,27 @@ Alike UI - same with input.config and select field and phrase
 
 Attachment size - summary size of all attachments in all base tables, per table
 
-Check Extra spaces - check 'untrimmed' values in some fileds (name contains 'given word') in all base tables.
+Check Untrimmed - check 'untrimmed' values in some fields (name contains word entered by user, for example 'owner') in all base tables.
+You can redefine function to check
 
 DownloadAttach - vbs-script for Windows. Download all attachments from csv into current folder. Can be used for backup to be sure you files are stored in your location. Each attachment has 8-digit code in link, it appends to filename. Then you can restore all including attachments via uploader.
 Requirements: csv file must be named Backup.csv
-Uploader - runs from separate table by button. Add attachments to selected table, using text info in second selected field. Attachments must be uploded to 'Files' field. Might contain 'Status' single-select field.
+Bulk Uploader - runs from separate table by button. Add attachments to selected table, using text info in second selected field. Attachments must be uploded to 'Files' field. Might contain 'Status' single-select field.
 
 Find field by ID - find field by ID or it's part
 
 Find duplicates - light version of deduper, no UI, only exact match. 1st line must be adjucted to select fields to check and to mark
+
+Join multiple tables - when you have many similar tables in a base, with similar fields, you can join all this data in a Master table.
+If you need only several fields and others should be ignored, edit Master table design - script uses it's fields as a fieldlist to take data.
 
 Horizont_to_Vert - transpose table, turning some data rows with 'Name 1', 'Name 2', 'Name 3' to vertical columns 'Name','num'
 
 Links and Lookups - Shows all linked fields and their lookups
 
 OryxFetch - fetch data from site oryxspioenkop.com, about equipment losses in war, parse it into small group of head lines, write to table
+
+Match probe - generate match probability formula for 2 fields. Designed to check and compare names from different sources
 
 TableCreate - it's a script for table 'TableCreator', used as tool to create tables by script. Select types, put names and press button. 
 Create table, await base.createTableAsync('TableCreator',[{name:'Name',type:'singleLineText'},{name:'prepare',type:'singleLineText'},{name:'Fieldnames',type:'multilineText'},{name:'Command',type:'multilineText'},{name:'Fieldtypes',type:'multipleSelects',options:{choices:[{name:'singleLineText'},{name:'multilineText'}]}}])
