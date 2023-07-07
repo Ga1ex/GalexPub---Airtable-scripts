@@ -1,7 +1,7 @@
 //a piese of code to copy record with all writable fields
 
 const table=base.getTable('Example')
-const flds=table.fields.filter(f=>(!['formula','createdBy','multipleLookupValues'].includes(f.type)))
+const flds=table.fields.filter(f=>(!f.isComputed))
 const convert=(fieldType,value)=>value===0? 0: value===null? null: value===[]? []: 
 fieldType=='singleSelect'? {'name':value.name}: 
 fieldType=='multipleSelects'? value.map(v=>({'name':v.name})): 
