@@ -7,7 +7,7 @@ const space=fn=>fn.name.includes(' ')? '{'+fn.name+'}':fn.name
 const fname=n=>n.type.includes('multiple')? 'CONCATENATE('+space(n)+')':space(n)
 const [fname1,fname2]=[fname(f1),fname(f2)]
 output.text(`Formula to copy-paste: \n`)
-output.text(`IF(${fname1},0.2*ROUND((
+output.text(`IF(AND(${fname1},${fname2}),0.2*ROUND((
 (FIND(REGEX_EXTRACT(TRIM(UPPER(${fname1}))),'[^ ]*'),TRIM(UPPER(${fname2})))>0)+
 (FIND(REGEX_EXTRACT(TRIM(UPPER(${fname1}))),'[^ ]*$'),TRIM(UPPER(${fname2})))>0)+
 (LEN(IF(ISERROR(REGEX_EXTRACT(SUBSTITUTE(SUBSTITUTE(TRIM(UPPER(${fname1}))),' '&REGEX_EXTRACT(TRIM(UPPER(${fname1}))),'[^ ]*$'),''),
