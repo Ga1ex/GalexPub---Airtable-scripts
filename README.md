@@ -1,7 +1,7 @@
 Gallery:  https://airtable.com/embed/shr3rV52eZV30UqN1
 
 "# GalexPub" 
-This repo cotains mine small scripts (10-20 lines) for Airtable to manage table data
+This repo contains small scripts (10-20 lines) for Airtable to manage table data
 
 Advanced deduper - a classic AT task. Do you know that you can quickly evaluate duplicates in column by 'Customize field - single select' (don't press save, just look at the list of field unique values, sorted by frequency, available to copypaste)?
 Includes UI to select table, fields to check and mark. Sometimes very helpful in scenarios where extension is almost useless.
@@ -16,8 +16,8 @@ Attachment size - summary size of all attachments in all base tables, per table
 Check Untrimmed - check 'untrimmed' values in some fields (name contains word entered by user, for example 'owner') in all base tables.
 You can redefine function to check
 
-DownloadAttach - vbs-script for Windows. Download all attachments from csv into current folder. Can be used for backup to be sure you files are stored in your location. Each attachment has 8-digit code in link, it appends to filename. Then you can restore all including attachments via uploader.
-Requirements: csv file must be named Backup.csv
+DownloadAttach - vbs-script for Windows. Download all attachments from csv into current folder. Can be used for backup to be sure you files are stored in your location. Each attachment has 8-digit code in link, it appends to filename. Then you can restore all including attachments via uploader. Note that you should run it within 2 hours from CSV download, so links will be available before change due to Nov 2022 Airtable attachment storage policy change. Requirements: csv file must be named Backup.csv
+
 Bulk Uploader - runs from separate table by button. Add attachments to selected table, using text info in second selected field. Attachments must be uploded to 'Files' field. Might contain 'Status' single-select field.
 
 Find field by ID - find field by ID or it's part
@@ -37,7 +37,7 @@ Match probe - generate match probability formula for 2 fields. Designed to check
 
 TableCreate - it's a script for table 'TableCreator', used as tool to create tables by script. Select types, put names and press button. 
 Create table, await base.createTableAsync('TableCreator',[{name:'Name',type:'singleLineText'},{name:'prepare',type:'singleLineText'},{name:'Fieldnames',type:'multilineText'},{name:'Command',type:'multilineText'},{name:'Fieldtypes',type:'multipleSelects',options:{choices:[{name:'singleLineText'},{name:'multilineText'}]}}])
-turn prepare to button. use bulleted text for names, comma-seperate inside the same type, new row for new type
+turn prepare to button. use bulleted text for names, comma-separate inside the same type, new row for new type
 
 UpdateCreate - get data from some API, in json, check records in table. If such ID exists, update. If not, create new record
 
