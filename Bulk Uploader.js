@@ -1,7 +1,6 @@
 //galex 2023
 // Required: run from button in table 'uploader', attachments in 'Files'. Edit first 2 lines to change
 // Optional: field Status with 'LOADING'/'idle' choices. You can edit or remove Status change lines 
-// to do: autodetect/autocreate Status field and options
 const table=base.getTable('uploader')
 const FLS='Files'
 const dest=await input.tableAsync('Where to upload?')
