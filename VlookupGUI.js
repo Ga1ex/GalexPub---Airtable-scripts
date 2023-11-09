@@ -33,7 +33,7 @@ if (byviews==='no') {
     queryMain = await viewOne.selectRecordsAsync({fields:[joinField,LINK]})
     querySec = await viewTwo.selectRecordsAsync({fields:[FIELD_TWO]})  }
 
-const val=x=>x.getCellValue(FIELD_TWO)
+const val=x=>x.getCellValueAsString(FIELD_TWO)
 const jfld=x=>x.getCellValueAsString(joinField)
 let valtable=querySec.records.reduce((acc,v)=>acc.set(val(v),[...acc.get(val(v))||[],v.id]),new Map())
 const query=queryMain.records.filter(r=>(!r.getCellValue(LINK))&&(valtable.has(jfld(r))))
