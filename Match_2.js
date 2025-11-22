@@ -1,0 +1,14 @@
+let config = input.config({title: 'Match probability 2.0',   
+    items: [input.config.table('xtable',{label:'Select table:'}),
+        input.config.field('f1', {label: 'Field #1',parentTable: 'xtable'}),
+        input.config.field('f2', {label: 'Field #2',parentTable: 'xtable'}),
+        input.config.field('f3', {label: 'Secondary field #2. formula compares with both, returns MAX. To omit, select same as #2',parentTable: 'xtable'}), ] });
+const {f1,f2,f3}=config;
+const space=fn=>fn.name.includes(' ')? '{'+fn.name+'}':fn.name
+const fname=n=>n.isComputed? 'CONCATENATE('+space(n)+')':space(n)
+const [fname1,fname2,fname3]=[fname(f1),fname(f2),fname(f3)]
+output.text(`Formula to copy-paste: \n`)
+const formula=xname=>`IF(AND(${fname1},${xname}),0.2*ROUND(((FIND(REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*'),TRIM(UPPER(${fname1})))>0)+(FIND(REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*$'),TRIM(UPPER(${fname1})))>0)+(LEN(IF(ISERROR(REGEX_EXTRACT(SUBSTITUTE(SUBSTITUTE(TRIM(UPPER(${xname})),' '&REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*$'),''),REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*'),''),'[^ ]{3,20}')),'',REGEX_EXTRACT(SUBSTITUTE(SUBSTITUTE(TRIM(UPPER(${xname})),' '&REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*$'),''),REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*'),''),'[^ ]{3,20}')))>2)*(FIND(IF(ISERROR(REGEX_EXTRACT(SUBSTITUTE(SUBSTITUTE(TRIM(UPPER(${xname})),' '&REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*$'),''),REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*'),''),'[^ ]{3,20}')),'',REGEX_EXTRACT(SUBSTITUTE(SUBSTITUTE(TRIM(UPPER(${xname})),' '&REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*$'),''),REGEX_EXTRACT(TRIM(UPPER(${xname})),'[^ ]*'),''),'[^ ]{3,20}')),TRIM(UPPER(${fname1})))>0)+(FIND(REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*'),TRIM(UPPER(${xname})))>0)+(FIND(REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*$'),TRIM(UPPER(${xname})))>0)+(LEN(IF(ISERROR(REGEX_EXTRACT(SUBSTITUTE(SUBSTITUTE(TRIM(UPPER(${fname1})),' '&REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*$'),''),REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*'),''),'[^ ]{3,20}')),'',REGEX_EXTRACT(SUBSTITUTE(SUBSTITUTE(TRIM(UPPER(${fname1})),' '&REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*$'),''),REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*'),''),'[^ ]{3,20}')))>2)*(FIND(IF(ISERROR(REGEX_EXTRACT(SUBSTITUTE(SUBSTITUTE(TRIM(UPPER(${fname1})),' '&REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*$'),''),REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*'),''),'[^ ]{3,20}')),'',REGEX_EXTRACT(SUBSTITUTE(SUBSTITUTE(TRIM(UPPER(${fname1})),' '&REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*$'),''),REGEX_EXTRACT(TRIM(UPPER(${fname1})),'[^ ]*'),''),'[^ ]{3,20}')),TRIM(UPPER(${xname})))>0)) * (1-0.2*((LEN(TRIM(${xname}))-LEN(SUBSTITUTE(TRIM(${xname}),' ',''))>1)*(LEN(TRIM(${fname1}))-LEN(SUBSTITUTE(TRIM(${fname1}),' ',''))>1)))))`
+const result=fname2==fname3? formula(fname2):
+`IF(AND(${fname1},OR(${fname2},${fname3})),MAX(\n${formula(fname2)} \n,\n ${formula(fname3)}\n))`
+output.text(result)

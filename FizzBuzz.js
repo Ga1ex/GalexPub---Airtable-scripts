@@ -1,0 +1,1 @@
+console.log([...Array(100).keys()].map(n=>++n%15? n%5? n%3? n:'Fizz':'Buzz':'FizzBuzz'))

@@ -1,4 +1,4 @@
-//galex,2013 
+//galex,2023 
 //Read settings
 let settings = input.config({title: 'Transpose table',
 items:  [input.config.table('tTable', {label: 'Select table' }),

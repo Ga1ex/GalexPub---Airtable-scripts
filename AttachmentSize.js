@@ -1,5 +1,5 @@
 //Sum of all attachments. Galex 2023. Define functions:
-const inMb=bytes=>bytes? `${Math.round(bytes/Math.pow(1024,2))} Mb`:''
+const inMb=bytes=>bytes? `${Math.round(bytes/2**20)} Mb`:''
 const flds=table=>table.fields.filter(fld=>fld.type.includes('Attach'));
 const sum=arr=>!arr? null:{size:arr.filter(n=>n).map(x=>x.size).reduce((x,y)=>x+y,0)}
 const count=async tbl=>await tbl.selectRecordsAsync({fields:flds(tbl)}).then(q=>

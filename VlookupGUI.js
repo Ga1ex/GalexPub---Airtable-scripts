@@ -1,11 +1,11 @@
 // galex,2022. Set table and field names
 let settings = input.config({
-    title: 'Vlookup',
-    description: 'You need to define two tables, fields to set link and link field. Second table and link will be autodetected',
-    items:[input.config.table('tableOne', {label: 'Select first table' }),
-           input.config.field('joinField',{label: 'Select field to join',parentTable:'tableOne'}),
-           input.config.select('byviews',{label: 'Do you need to select views?',options:[
-           {label:'NO (default). Processing full tables',value:'no'},{value:'YES'}]})]
+  title: 'Vlookup',
+  description: 'You need to define two tables, fields to set link and link field. Second table and link will be autodetected',
+  items:[input.config.table('tableOne', {label: 'Select first table' }),
+         input.config.field('joinField',{label: 'Select field to join',parentTable:'tableOne'}),
+         input.config.select('byviews',{label: 'Do you need to select views?',options:[
+         {label:'NO (default). Processing full tables',value:'no'},{value:'YES'}]})]
 })
 const {tableOne,joinField,byviews}=settings
 
@@ -25,21 +25,22 @@ const FIELD_TWO=SECTABLE.getField(fld)
 //Read data, define target scope
 let queryMain; let querySec;
 if (byviews==='no') {
-  queryMain = await tableOne.selectRecordsAsync({fields:[joinField,LINK]});
-  querySec = await SECTABLE.selectRecordsAsync({fields:[FIELD_TWO]}) 
-    } else {
-    const viewOne = await input.viewAsync(`Select view for table ${tableOne.name}:`,tableOne)
-    const viewTwo = await input.viewAsync(`Select view for table ${SECTABLE.name}:`,SECTABLE)
-    queryMain = await viewOne.selectRecordsAsync({fields:[joinField,LINK]})
-    querySec = await viewTwo.selectRecordsAsync({fields:[FIELD_TWO]})  }
+queryMain = await tableOne.selectRecordsAsync({fields:[joinField,LINK]});
+querySec = await SECTABLE.selectRecordsAsync({fields:[FIELD_TWO]}) 
+  } else {
+  const viewOne = await input.viewAsync(`Select view for table ${tableOne.name}:`,tableOne)
+  const viewTwo = await input.viewAsync(`Select view for table ${SECTABLE.name}:`,SECTABLE)
+  queryMain = await viewOne.selectRecordsAsync({fields:[joinField,LINK]})
+  querySec = await viewTwo.selectRecordsAsync({fields:[FIELD_TWO]})  }
 
 const val=x=>x.getCellValueAsString(FIELD_TWO)
 const jfld=x=>x.getCellValueAsString(joinField)
 let valtable=querySec.records.reduce((acc,v)=>acc.set(val(v),[...acc.get(val(v))||[],v.id]),new Map())
 const query=queryMain.records.filter(r=>(!r.getCellValue(LINK))&&(valtable.has(jfld(r))))
 output.text(`Total records: ${queryMain.records.length}, empty records: ${query.length}`)
-const ask=await input.buttonsAsync(`Update only empty links or update all?`,['Empty','All'])
-const upd=(ask=='All')? queryMain.records : query
+const ask=await input.buttonsAsync(`Update All (Default) or only empty links (when links already set, then a few 
+records added)?`,[{label:'ALL',variant:'primary'},'Empty'])
+const upd=(ask=='ALL')? queryMain.records : query
 output.inspect(queryMain)
 output.inspect(query)
 const updateLink=(rec,m)=>({id:rec.id,fields:{[LINK.name]:m.map(x=>({'id':x}))}}) 
@@ -47,3 +48,4 @@ const updateLink=(rec,m)=>({id:rec.id,fields:{[LINK.name]:m.map(x=>({'id':x}))}}
 //Process and write
 let updates=upd.map(rec=>updateLink(rec,valtable.get(jfld(rec))||[]))
 while(updates.length) await tableOne.updateRecordsAsync(updates.splice(0,50))
+console.log('Done!')

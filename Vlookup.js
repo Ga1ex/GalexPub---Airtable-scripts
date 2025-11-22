@@ -5,7 +5,8 @@ const [mainField,secField,linkField]=['Barcode','item.barcode','Product']
 //Define functions
 const linkObject=rec=>({id:rec.id})
 const updateLink=(ord,m)=>({id:ord.id,fields:{[linkField]:m.map(linkObject)}}) 
-const compare=(o,p)=>(p.getCellValue(secField)===o.getCellValue(mainField))
+const compare=(o,p)=>((o.getCellValue(mainField).length>3) && 
+  (p.getCellValue(secField).includes(o.getCellValue(mainField))))
 const findMatches=order=>products.records.filter(prod=>compare(order,prod))
 //read data
 const orders = await mainTable.selectRecordsAsync({fields:[mainField]});
