@@ -17,4 +17,14 @@ const total=flds.map(f=>({fields:fdata(f)}))
 const getlist=await inv.selectRecordsAsync({fields:[]}).then(q=>[...q.recordIds])
 while(getlist.length) await inv.deleteRecordsAsync(getlist.splice(0,50))
 while(total.length) await inv.createRecordsAsync(total.splice(0,50))
-console.log('Done')
+const ask=await input.buttonsAsync('Create marker record?','YES,No'.split(','))
+if(ask==='YES'){
+    const types={text:['singleLineText','multilineText'],num:['number','percent','currency','duration','rating']}
+    const marker=flds.reduce((s,f)=>{
+        const u=fdata(f).Unique,t=table.getField(f).type
+        if(types.text.includes(t)) s[f]=u.toString()
+        if(types.num.includes(t)) s[f]=u
+        return s
+    },{})
+    if(Object.keys(marker).length) await table.createRecordAsync(marker)
+}
